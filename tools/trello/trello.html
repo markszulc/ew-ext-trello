@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Trello</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="icon" href="data:,">
+    <script src="https://da.live/nx/utils/sdk.js" type="module"></script>
+    <link rel="stylesheet" href="/tools/trello/trello.css"/>
+    <script src="/tools/trello/trello.js" type="module"
+      onerror="document.getElementById('trello-app').innerHTML = '<p class=&quot;tp-notice tp-notice-error&quot;>Could not load ' + this.src + '. Check that your local server is running and serves this folder (see README).</p>'"></script>
+  </head>
+  <body>
+    <main id="trello-app" class="tp" aria-live="polite">
+      <p class="tp-muted">Loading…</p>
+    </main>
+  </body>
+</html>
