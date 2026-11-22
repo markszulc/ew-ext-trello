@@ -60,8 +60,8 @@ function h(tag, attrs = {}, ...children) {
 
 // Minimal line icons drawn to match Spectrum 2's 20px stroke style.
 const ICONS = {
-  refresh: ['M16 10a6 6 0 1 1-1.76-4.24', 'M15 3v3.5h-3.5'],
-  logout: ['M8 4H5.5A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8', 'M12 6.5 15.5 10 12 13.5', 'M15.5 10H8'],
+  refresh: ['M16 10a6 6 0 1 1-1.8-4.3', 'M14.5 2.75v3h-3'],
+  logout: ['M8 4H5.5A1.5 1.5 0 0 0 4 5.5v9A1.5 1.5 0 0 0 5.5 16H8', 'M12.5 6.5 16 10l-3.5 3.5', 'M16 10H8'],
   external: ['M11 4h5v5', 'M16 4l-7 7', 'M14 12v2.5a1.5 1.5 0 0 1-1.5 1.5h-7A1.5 1.5 0 0 1 4 14.5v-7A1.5 1.5 0 0 1 5.5 6H8'],
   chevron: ['M8 5l5 5-5 5'],
   back: ['M12 5l-5 5 5 5'],
@@ -76,8 +76,18 @@ const ICONS = {
 function icon(name) {
   const NS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('viewBox', '0 0 20 20');
-  svg.setAttribute('class', `tp-icon tp-icon-${name}`);
+  // Presentation attributes keep icons small and outlined even before the stylesheet applies.
+  Object.entries({
+    viewBox: '0 0 20 20',
+    width: '18',
+    height: '18',
+    fill: 'none',
+    stroke: 'currentColor',
+    'stroke-width': '1.5',
+    'stroke-linecap': 'round',
+    'stroke-linejoin': 'round',
+    class: `tp-icon tp-icon-${name}`,
+  }).forEach(([k, v]) => svg.setAttribute(k, v));
   svg.setAttribute('aria-hidden', 'true');
   svg.setAttribute('focusable', 'false');
   ICONS[name].forEach((d) => {
@@ -89,7 +99,7 @@ function icon(name) {
 }
 
 function render(...nodes) {
-  app.replaceChildren(...nodes);
+  app.replaceChildren(...nodes.filter((n) => n !== null && n !== undefined && n !== false));
 }
 
 let statusTimer;

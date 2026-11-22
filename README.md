@@ -42,7 +42,7 @@ tools/trello/
   trello.html   # page loaded in the side-panel iframe
   trello.js     # UI and DA SDK integration
   api.js        # Trello REST client and permission logic
-  trello.css    # Spectrum-like styling sized for the panel
+  trello.css    # Spectrum 2 tokens and component styling sized for the panel
   config.js     # API key and default board
 ```
 
@@ -80,5 +80,5 @@ Copy `tools/trello/` into your Edge Delivery Services project repository. The pl
 
 ## Notes
 
-- The token is stored in `localStorage` on the panel's origin and expires after 30 days (`tokenExpiration` in `config.js`). **Disconnect (⏏)** revokes it with Trello and clears it.
+- The token is stored in `localStorage` on the panel's origin and expires after 30 days (`tokenExpiration` in `config.js`). **Disconnect** (the sign-out icon next to Refresh) revokes it with Trello and clears it.
 - Outside Experience Workspace, the panel switches to standalone mode after 3 seconds. Trello features keep working there, which is useful for local testing at `http://localhost:3000/tools/trello/trello.html`.
