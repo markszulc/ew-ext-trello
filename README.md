@@ -19,6 +19,22 @@ A side-panel plugin for [Experience Workspace](https://www.aem.live/docs/ew/deve
   - "Insert link in page" (`actions.sendHTML`)
   - "Ask Assistant" (`actions.setPrompt`) pre-fills the chat with the card's context.
 
+## Try it without installing
+
+A hosted copy is published to GitHub Pages, so you can evaluate the panel without copying any files:
+
+1. Open `https://da.live/config#/{org}/{site}` and go to the **library** tab.
+2. Add a row:
+
+   | title | path |
+   |---|---|
+   | Trello | `https://markszulc.github.io/ew-ext-trello/tools/trello/trello.html` |
+
+3. Save, then open Canvas (for example `https://da.live/canvas#/{org}/{site}/index`) and choose **Trello** from the side-panel switcher.
+4. Enter your Trello API key and click **Connect with Trello**. Your Power-Up's **Allowed origins** must include `https://markszulc.github.io` (see [Setup](#setup)). You can also use **Get a token manually**, which doesn't need an allowed origin.
+
+The token is stored in your browser for the `markszulc.github.io` origin only.
+
 ## Files
 
 ```
@@ -35,7 +51,7 @@ Copy `tools/trello/` into your Edge Delivery Services project repository. The pl
 ## Setup
 
 1. **Trello API key.** Create a Power-Up at <https://trello.com/power-ups/admin>, open **API key** and generate a key.
-   - Add every origin that will serve the panel to **Allowed origins**, for example `http://localhost:3000` and `https://main--{site}--{org}.aem.live`.
+   - Add every origin that will serve the panel to **Allowed origins**, for example `http://localhost:3000`, `https://main--{site}--{org}.aem.live` or `https://markszulc.github.io` for the hosted copy.
    - Then set `apiKey` in `config.js`. You can instead append `?key=...` to the library path, or leave it empty so each user pastes a key.
 2. **Register the panel.** Open `https://da.live/config#/{org}/{site}`, go to the **library** tab and add a row:
 
