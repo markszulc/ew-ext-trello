@@ -15,6 +15,8 @@ const STORAGE = {
 
 const params = new URLSearchParams(window.location.search);
 const app = document.getElementById('trello-app');
+// Trello only accepts a return_url whose origin is in the Power-Up's Allowed origins.
+const returnUrl = params.get('return_url') || config.returnUrl || window.location.origin;
 
 const state = {
   sdk: null,
@@ -710,7 +712,7 @@ function showConnect(message) {
     if (!key) return;
     const popup = window.open(
       authorizeUrl({
-        key, appName: config.appName, expiration: config.tokenExpiration, returnUrl: window.location.origin,
+        key, appName: config.appName, expiration: config.tokenExpiration, returnUrl,
       }),
       'trello-auth',
       'width=600,height=720',
@@ -721,12 +723,22 @@ function showConnect(message) {
     }
     const onMessage = (event) => {
       if (event.origin !== TRELLO_ORIGIN || event.source !== popup) return;
+      window.clearInterval(closedPoll);
       window.removeEventListener('message', onMessage);
       popup.close();
       if (typeof event.data === 'string' && event.data.length > 20) saveToken(event.data);
       else status('Trello authorization was cancelled.', 'error');
     };
     window.addEventListener('message', onMessage);
+    // Trello posts the token to return_url's origin, so a return_url on another origin never reaches this page.
+    const closedPoll = window.setInterval(() => {
+      if (!popup.closed) return;
+      window.clearInterval(closedPoll);
+      window.removeEventListener('message', onMessage);
+      if (!state.token && new URL(returnUrl, window.location.href).origin !== window.location.origin) {
+        status('No token received. return_url is on a different origin; use "Get a token manually".', 'error');
+      }
+    }, 1000);
   };
 
   render(

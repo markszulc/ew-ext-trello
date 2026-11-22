@@ -61,6 +61,20 @@ Copy `tools/trello/` into your Edge Delivery Services project repository. The pl
    | Trello | `https://main--{site}--{org}.aem.live/tools/trello/trello.html` |
 
    Optional: append `?board={boardShortLink}` to open a specific board first.
+
+   **URL parameters.** You can configure the panel from the library path itself, for example:
+
+   ```
+   https://markszulc.github.io/ew-ext-trello/tools/trello/trello.html?key={apiKey}&return_url=https://markszulc.github.io
+   ```
+
+   | parameter | purpose |
+   |---|---|
+   | `key` | Trello API key. Skips the key field on the connect screen. |
+   | `return_url` | `return_url` sent to Trello's authorize page. Defaults to the panel's origin. Its origin must be in the Power-Up's **Allowed origins**. |
+   | `board` | Board id or short link to open first. |
+
+   Trello sends the token back only to the `return_url` origin. If that isn't the origin serving the panel, the popup can't hand the token over, so use **Get a token manually** instead.
 3. Run `aem up` and open Canvas, for example `https://da.live/canvas#/{org}/{site}/index`. Choose **Trello** from the side-panel switcher.
 4. Click **Connect with Trello**. A Trello popup asks you to allow read and write access, and the token comes back to the panel. If the popup is blocked, use **Get a token manually** and paste the token instead.
 
