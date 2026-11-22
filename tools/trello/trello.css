@@ -93,6 +93,9 @@ a:hover { color: var(--s2-accent-hover); }
 .tp-notice-error { border-left-color: var(--s2-negative); background: var(--s2-red-200); }
 
 .tp-header { display: flex; flex-direction: column; gap: var(--s2-space-100); }
+.tp-brand { display: flex; align-items: center; gap: var(--s2-space-100); }
+.tp-logo { flex: none; display: block; }
+.tp-brand-name { font-size: 18px; font-weight: 800; line-height: 1; color: var(--s2-gray-900); }
 .tp-header-row { display: flex; align-items: center; gap: var(--s2-space-100); flex-wrap: wrap; }
 .tp-header-row a { display: inline-flex; align-items: center; gap: var(--s2-space-50); margin-left: auto; }
 .tp-header-row a .tp-icon { width: 14px; height: 14px; }

@@ -98,6 +98,28 @@ function icon(name) {
   return svg;
 }
 
+function trelloLogo(size = 24) {
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  Object.entries({
+    viewBox: '0 0 24 24', width: String(size), height: String(size), class: 'tp-logo', role: 'img', 'aria-label': 'Trello',
+  }).forEach(([k, v]) => svg.setAttribute(k, v));
+  [
+    ['rect', { width: 24, height: 24, rx: 5, fill: '#0c66e4' }],
+    ['rect', { x: 4.5, y: 4.5, width: 6, height: 13.5, rx: 1.5, fill: '#fff' }],
+    ['rect', { x: 13.5, y: 4.5, width: 6, height: 8.25, rx: 1.5, fill: '#fff' }],
+  ].forEach(([tag, attrs]) => {
+    const el = document.createElementNS(NS, tag);
+    Object.entries(attrs).forEach(([k, v]) => el.setAttribute(k, String(v)));
+    svg.append(el);
+  });
+  return svg;
+}
+
+function brand() {
+  return h('div', { class: 'tp-brand' }, trelloLogo(), h('span', { class: 'tp-brand-name' }, 'Trello'));
+}
+
 function render(...nodes) {
   app.replaceChildren(...nodes.filter((n) => n !== null && n !== undefined && n !== false));
 }
@@ -232,7 +254,10 @@ async function loadBoard(boardId) {
   state.perms = boardPermissions(board, state.me);
   localStorage.setItem(STORAGE.board, board.id);
   if (!lists.some((l) => state.openLists.has(l.id))) {
-    lists.slice(0, 3).forEach((l) => state.openLists.add(l.id));
+    // Expand lists with active (not completed) cards; lists with none start minimized.
+    lists
+      .filter((l) => (l.cards || []).some((c) => !c.dueComplete))
+      .forEach((l) => state.openLists.add(l.id));
   }
 }
 
@@ -259,6 +284,7 @@ function header() {
   return h(
     'header',
     { class: 'tp-header' },
+    brand(),
     h('div', { class: 'tp-header-row' }, boardSelect,
       h('button', {
         type: 'button',
@@ -445,7 +471,7 @@ function sdkActions(card) {
         actions.setPrompt(`I'm working on the Trello card "${card.name}" (${card.shortUrl}).${desc} Help me with this task for the page I currently have open.`, { autoSend: false });
         status('Sent to the Assistant chat', 'success');
       },
-    }, 'Ask Assistant'));
+    }, 'Ask Coworker'));
   }
   return buttons;
 }
@@ -756,6 +782,7 @@ function showConnect(message) {
     h(
       'section',
       { class: 'tp-connect' },
+      brand(),
       h('h1', { class: 'tp-h1' }, 'Connect Trello'),
       h('p', { class: 'tp-muted' }, 'View and update your Trello boards without leaving Experience Workspace. You will only be able to do what your Trello account allows on each board.'),
       message ? h('p', { class: 'tp-notice tp-notice-error' }, message) : null,
